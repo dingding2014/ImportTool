@@ -26,16 +26,18 @@ import util.LoadUrl;
 public class mysqlToHivePost {
 	//private final static String RequestUrl =  "http://10.214.208.113:8472/api/";
 	private final static String RequestUrl =  "http://"+LoadUrl.azkabanURL+"/api/";
+	private String dbName;
 	private String tableName;
 	private String userName;
 	public HiveJdbcClient client = new HiveJdbcClient();
-	public mysqlToHivePost(String userName, String tableName){
+	public mysqlToHivePost( String userName,String dbName, String tableName){
+		this.dbName = dbName;
 		this.tableName = tableName;
 		this.userName = userName;
 	}
 	public  void httpPost() throws SQLException{
 		String requestUrl = RequestUrl + userName + "/Schema";
-		HashMap<String, String> column = client.desc(tableName); 
+		HashMap<String, String> column = client.desc(dbName,tableName); 
 		HashMap<String, String> elem;
 		HashMap<String, Object> meta;
 		List<HashMap> fields ;
@@ -79,6 +81,7 @@ public class mysqlToHivePost {
 				fields.add(elem);
 			}
 			meta.put("fields", fields);
+			meta.put("hive_database",dbName);
 			obj.element("meta", meta);
 			obj.element("detailed", true);
 			

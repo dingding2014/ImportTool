@@ -47,11 +47,13 @@ public class HiveJdbcClient {
 		con.close();	
 	}
 	
-	public HashMap<String, String> desc(String table_name) throws SQLException {
+	public HashMap<String, String> desc(String hive_database,String table_name) throws SQLException {
 		HashMap<String, String> fields = new HashMap<String, String>();
 		init();
+		String sql="use "+hive_database;
+		stmt.execute(sql);
 		//regular hive query
-		String sql = "desc " + table_name;
+		sql = "desc " + table_name;
 		System.out.println("Running: " + sql);
 		res = stmt.executeQuery(sql);
 		String name;String type;

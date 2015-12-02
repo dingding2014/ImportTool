@@ -92,7 +92,7 @@ public class MysqlToHive {
 		return exist;
 	}
 	
-	public Map<String,String> getTableName(String jobName) throws IOException {
+	public Map<String,String> getTableInfo(String jobName) throws IOException {
 		Process process = Runtime.getRuntime().exec("sqoop job --show "+jobName);
 		InputStream inputStream = process.getInputStream();
 		BufferedReader inputbr = new BufferedReader(new InputStreamReader(inputStream));
@@ -247,7 +247,7 @@ public class MysqlToHive {
 			 }
 		}
 		else if(option.equals("4")) {
-			Map<String,String> map= mysqlToHive.getTableName(jobName);
+			Map<String,String> map= mysqlToHive.getTableInfo(jobName);
 			hive_database = map.get("hiveDatabase");
 			hive_tablename = map.get("hiveTable");
 			if(!mysqlToHive.checkTableExist(hive_database, hive_tablename)) {
@@ -289,7 +289,7 @@ public class MysqlToHive {
 				}
 				else tableNames.add(hive_tablename);
 				for(String tableName:tableNames) {
-					mysqlToHivePost post = new mysqlToHivePost(username, tableName);
+					mysqlToHivePost post = new mysqlToHivePost(username, hive_database, tableName);
 					try {
 				          post.httpPost();
 				   } catch (SQLException e) {
