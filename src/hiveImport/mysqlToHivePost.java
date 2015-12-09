@@ -41,7 +41,7 @@ public class mysqlToHivePost {
 		HashMap<String, String> elem;
 		HashMap<String, Object> meta;
 		List<HashMap> fields ;
-//		String BOUNDARY = "---------7d4a6d158c9"; // ������ݷָ���
+//		String BOUNDARY = "---------7d4a6d158c9"; // 锟斤拷锟斤拷锟斤拷莘指锟斤拷锟�
 //		String namepw = "api/" + userName + "/Schema"; 
 		try{
 			
@@ -81,7 +81,7 @@ public class mysqlToHivePost {
 				fields.add(elem);
 			}
 			meta.put("fields", fields);
-			meta.put("hive_database",dbName);
+			//meta.put("hive_database",dbName);
 			obj.element("meta", meta);
 			obj.element("detailed", true);
 			
